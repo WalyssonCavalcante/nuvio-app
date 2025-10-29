@@ -17,7 +17,7 @@ export default function SplashScreen() {
     <View style={styles.container}>
       <View style={styles.iconWrapper}>
         <Image
-          source={require("../../assets/nuvio.png")}
+          source={require("../assets/nuvio.png")}
           style={styles.cloudIcon}
         />
       </View>
