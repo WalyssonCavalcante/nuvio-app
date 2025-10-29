@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   nameRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 16,
+    marginBottom: 4,
   },
   nameInput: {
     flex: 1,

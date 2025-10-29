@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+<h1 align="center">Nuvio App</h1>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  Um aplicativo móvel focado em saúde mental e bem-estar, construído com Expo e React Native.
+</p>
 
-## Get started
+<p align="center">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg"/>
+</p>
 
-1. Install dependencies
+## 📝 Sobre o Projeto
 
-   ```bash
-   npm install
-   ```
+O Nuvio é um aplicativo móvel desenvolvido para ser um companheiro na jornada de cuidados com a saúde mental. Ele oferece conteúdos simples e práticos para apoiar o bem-estar no dia a dia, com artigos sobre temas como ansiedade, depressão, autoestima e estresse.
 
-2. Start the app
+Este é um projeto de extensão acadêmico para a disciplina de Desenvolvimento Mobile da Faculdade Facimp Wyden, com o objetivo de aplicar conceitos de criação de aplicativos multiplataforma.
 
-   ```bash
-   npx expo start
-   ```
+## ✨ Funcionalidades
 
-In the output, you'll find options to open the app in a
+- **Leitura de Artigos**: Explore uma seleção de artigos sobre saúde mental.
+- **Respiração Guiada**: Exercícios interativos para controle de ansiedade e relaxamento.
+- **Filtro por Categoria**: Navegue por conteúdos de "Ansiedade", "Depressão", "Autoestima" e "Estresse".
+- **Artigos em Destaque**: Acesse rapidamente os conteúdos mais relevantes.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🚀 Como Executar o Projeto
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Siga os passos abaixo para configurar e rodar o projeto em seu ambiente de desenvolvimento.
 
-## Get a fresh project
+### Pré-requisitos
 
-When you're ready, run:
+- Node.js (versão LTS recomendada)
+- npm ou yarn
+- Expo Go instalado em seu dispositivo móvel (Android/iOS) ou um emulador/simulador configurado.
+
+### Instalação e Execução
+
+1. **Clone o repositório**
 
 ```bash
-npm run reset-project
+git clone https://github.com//nuvio-app.git
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. **Abra o repositório**
 
-## Learn more
+```bash
+cd nuvio-app
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3. **Rode o Projeto**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start
+```
