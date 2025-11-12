@@ -59,7 +59,7 @@ export default function BreathingScreen() {
 
     runAnimationCycle();
 
-    let countdownInterval: NodeJS.Timeout | null = null;
+    let countdownInterval: ReturnType<typeof setInterval> | null = null;
     if (selectedDuration !== Infinity) {
       countdownInterval = setInterval(() => {
         setCountdown((prev) => {

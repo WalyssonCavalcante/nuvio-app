@@ -1,9 +1,9 @@
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Link } from "expo-router";
-import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Link, router, useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,10 +11,30 @@ import {
   View,
 } from "react-native";
 
-type Mood = "feliz" | "calmo" | "relaxado" | "raiva" | "triste" | null;
+import { SafeAreaView } from "react-native-safe-area-context";
+const USER_PROFILE_KEY = "@NuvioApp:userProfile";
 
 export default function HomeScreen() {
-  const [selectedMood, setSelectedMood] = useState<Mood>(null);
+  const [userName, setUserName] = useState("Usuário");
+  const [avatarUri, setAvatarUri] = useState<string | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      const loadProfile = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem(USER_PROFILE_KEY);
+          if (jsonValue) {
+            const { name, avatarUri } = JSON.parse(jsonValue);
+            setUserName(name || "Usuário");
+            setAvatarUri(avatarUri);
+          }
+        } catch (e) {
+          console.error("Falha ao carregar o perfil na home.", e);
+        }
+      };
+      loadProfile();
+    }, [])
+  );
 
   const moods = [
     {
@@ -57,22 +77,20 @@ export default function HomeScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/profile")}>
             <Image
-              source={require("../../assets/nuvio.png")}
+              source={
+                avatarUri
+                  ? { uri: avatarUri }
+                  : require("../../assets/nuvio.png")
+              }
               style={styles.avatar}
             />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.notificationButton}>
-            <FontAwesome name="bell" size={24} color="#333" />
-            <View style={styles.notificationBadge}>
-              <Text style={styles.badgeText}>3</Text>
-            </View>
           </TouchableOpacity>
         </View>
 
         {/* Saudação */}
-        <Text style={styles.greeting}>Boa Tarde!</Text>
+        <Text style={styles.greeting}>Boa Tarde, {userName}!</Text>
 
         {/* Pergunta de humor */}
         <Text style={styles.question}>Como você está se sentindo hoje?</Text>
@@ -86,12 +104,10 @@ export default function HomeScreen() {
           {moods.map((mood) => (
             <TouchableOpacity
               key={mood.id}
-              style={[
-                styles.moodButton,
-                { backgroundColor: mood.color },
-                selectedMood === mood.id && styles.moodButtonSelected,
-              ]}
-              onPress={() => setSelectedMood(mood.id as Mood)}
+              style={[styles.moodButton, { backgroundColor: mood.color }]}
+              onPress={() =>
+                router.push({ pathname: "/diary", params: { mood: mood.id } })
+              }
             >
               <Image source={mood.image} style={styles.moodImage} />
               <Text style={styles.moodLabel}>{mood.label}</Text>
@@ -100,21 +116,27 @@ export default function HomeScreen() {
         </ScrollView>
 
         {/* Card Diário Emocional */}
-        <TouchableOpacity style={styles.diaryCard}>
-          <View style={styles.diaryContent}>
-            <Text style={styles.diaryTitle}>Diário Emocional</Text>
-            <Text style={styles.diarySubtitle}>Hoje eu me escuto</Text>
-            <View style={styles.diaryAction}>
-              <Text style={styles.diaryActionText}>Faça Agora</Text>
-              <MaterialCommunityIcons
-                name="calendar-edit"
-                size={20}
-                color="#FF6B35"
-              />
+        <Link href="/diary" asChild>
+          <TouchableOpacity style={styles.diaryCard}>
+            <View style={styles.diaryContent}>
+              <Text style={styles.diaryTitle}>Diário Emocional</Text>
+              <Text style={styles.diarySubtitle}>Hoje eu me escuto</Text>
+              <View style={styles.diaryAction}>
+                <Text style={styles.diaryActionText}>Faça Agora</Text>
+                <MaterialCommunityIcons
+                  name="calendar-edit"
+                  size={20}
+                  color="#FF6B35"
+                />
+              </View>
             </View>
-          </View>
-          <MaterialCommunityIcons name="hand-heart" size={48} color="#5D4037" />
-        </TouchableOpacity>
+            <MaterialCommunityIcons
+              name="hand-heart"
+              size={48}
+              color="#5D4037"
+            />
+          </TouchableOpacity>
+        </Link>
 
         {/* Card Artigos */}
         <Link href="/articles" asChild>
@@ -131,7 +153,8 @@ export default function HomeScreen() {
         {/* Card Citação */}
         <View style={styles.quoteCard}>
           <Text style={styles.quoteText}>
-            "É melhor conquistar a si mesmo do que vencer mil batalhas."
+            &quot;É melhor conquistar a si mesmo do que vencer mil
+            batalhas.&quot;
           </Text>
           <FontAwesome name="headphones" size={24} style={styles.quoteIcon} />
         </View>
@@ -177,25 +200,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     borderColor: "#6C63FF",
-  },
-  notificationButton: {
-    position: "relative",
-  },
-  notificationBadge: {
-    position: "absolute",
-    top: -5,
-    right: -5,
-    backgroundColor: "#6C63FF",
-    borderRadius: 10,
-    width: 20,
-    height: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  badgeText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "bold",
   },
   greeting: {
     fontSize: 32,
